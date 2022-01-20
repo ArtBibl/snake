@@ -4,8 +4,7 @@ import random
 import pynput
 
 
-direction = 0
-directionX = 1
+direction = 1
 xfood = 0
 yfood = 0
 snake = [{'x': 1, 'y': 2}, {'x': 2, 'y': 2}]
@@ -33,14 +32,14 @@ def draw():
 
 def move():
     global snake
-    new_head = snake[-1]
+    new_head = snake[-1].copy()
     if direction == 1:
         new_head['y'] += 1
     if direction == 2:
         new_head['y'] -= 1
-    if directionX == 3:
+    if direction == 3:
         new_head['x'] -= 1
-    if directionX == 4:
+    if direction == 4:
         new_head['x'] += 1
     snake.append(new_head)
     snake.pop(0)
@@ -55,13 +54,13 @@ def randfood():
 def on_press(key):
     global direction, directionX
     if key == pynput.keyboard.Key.up:
-        direction = 1
-    if key == pynput.keyboard.Key.down:
         direction = 2
+    if key == pynput.keyboard.Key.down:
+        direction = 1
     if key == pynput.keyboard.Key.left:
-        directionX = 3
+        direction = 3
     if key == pynput.keyboard.Key.right:
-        directionX = 4
+        direction = 4
 
 def on_release(key):
     pass
@@ -76,4 +75,5 @@ while True:
     os.system('cls')
     draw()
     move()
-    time.sleep(1)
+    time.sleep(0.1)
+
