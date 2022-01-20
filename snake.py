@@ -3,17 +3,32 @@ import time
 import random
 import pynput
 
-WIDTH = 0
-HEIGHT = 0
+
 direction = 0
 directionX = 1
 xfood = 0
 yfood = 0
 snake = [{'x': 1, 'y': 2}, {'x': 2, 'y': 2}]
 
+WIDTH = 30
+HEIGHT =10
+
+
 
 def draw():
-    pass
+    y=0
+    while y < HEIGHT:
+        x = 0
+        result = " "
+        while x< WIDTH:
+            char = 'o'
+            for item in snake:
+                if x == item["x"] and y == item["y"]:
+                    char = " "
+            result += char
+            x +=1
+        print(" " +result)
+        y+=1
 
 
 def move():
@@ -59,8 +74,6 @@ pynput.keyboard.Listener(
 
 while True:
     os.system('cls')
-#     draw()
-    print(snake)
+    draw()
     move()
-    print(snake)
     time.sleep(1)
