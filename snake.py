@@ -3,11 +3,27 @@ import time
 
 import pynput
 
-direction = x
+direction = 1
+
+WIDTH = 30
+HEIGHT =10
+
 
 
 def draw():
-    pass
+    y=0
+    while y < HEIGHT:
+        x = 0
+        result = " "
+        while x< WIDTH:
+            char = 'o'
+            for item in snake:
+                if x == item["x"] and y == item["y"]:
+                    char = " "
+            result += char
+            x +=1
+        print(" " +result)
+        y+=1
 
 
 def move():
