@@ -1,33 +1,38 @@
 import os
-import time
 import random
-import pynput
+import time
 
+import pynput
 
 direction = 1
 xfood = 0
 yfood = 0
-snake = [{'x': 1, 'y': 2}, {'x': 2, 'y': 2}]
-
+snake = [{'x': 1, 'y': 2},
+         {'x': 2, 'y': 2},
+         {'x': 3, 'y': 2},
+         {'x': 4, 'y': 2}]
+foods = [{'x': 6, 'y': 5}]
 WIDTH = 30
-HEIGHT =10
-
+HEIGHT = 10
 
 
 def draw():
-    y=0
+    y = 0
     while y < HEIGHT:
         x = 0
         result = " "
-        while x< WIDTH:
-            char = 'o'
+        while x < WIDTH:
+            char = ' '
             for item in snake:
                 if x == item["x"] and y == item["y"]:
-                    char = " "
+                    char = "0"
+            for food in foods:
+                if x == food['x'] and y == food['y']:
+                    char = '#'
             result += char
-            x +=1
-        print(" " +result)
-        y+=1
+            x += 1
+        print(" " + result)
+        y += 1
 
 
 def move():
@@ -46,13 +51,14 @@ def move():
 
 
 def randfood():
-    global xfood, yfood
+    global foods
     xfood = random.randint(0, WIDTH)
     yfood = random.randint(0, HEIGHT)
+    foods = [{'x': xfood, 'y': yfood}]
 
 
 def on_press(key):
-    global direction, directionX
+    global direction
     if key == pynput.keyboard.Key.up:
         direction = 2
     if key == pynput.keyboard.Key.down:
@@ -61,6 +67,7 @@ def on_press(key):
         direction = 3
     if key == pynput.keyboard.Key.right:
         direction = 4
+
 
 def on_release(key):
     pass
@@ -76,4 +83,3 @@ while True:
     draw()
     move()
     time.sleep(0.1)
-
