@@ -26,9 +26,9 @@ def draw():
             for item in snake:
                 if x == item["x"] and y == item["y"]:
                     char = "0"
-            for food in foods:
-                if x == food['x'] and y == food['y']:
-                    char = '#'
+                for food in foods:
+                    if x == food['x'] and y == food['y']:
+                        char = '#'
             result += char
             x += 1
         print(" " + result)
@@ -36,7 +36,7 @@ def draw():
 
 
 def move():
-    global snake
+    global snake, xfood, yfood
     new_head = snake[-1].copy()
     if direction == 1:
         new_head['y'] += 1
@@ -46,15 +46,25 @@ def move():
         new_head['x'] -= 1
     if direction == 4:
         new_head['x'] += 1
+    if new_head['x'] == xfood and new_head['y'] == yfood:
+        randfood()
+    else:
+        snake.pop(0)
     snake.append(new_head)
-    snake.pop(0)
 
 
 def randfood():
-    global foods
-    xfood = random.randint(0, WIDTH)
-    yfood = random.randint(0, HEIGHT)
-    foods = [{'x': xfood, 'y': yfood}]
+    global foods, xfood, yfood
+    food_not_into_snake = True
+    while food_not_into_snake:
+        xfood = random.randint(0, WIDTH - 1)
+        yfood = random.randint(0, HEIGHT - 1)
+        foods = [{'x': xfood, 'y': yfood}]
+        for item in snake:
+            if item['x'] == xfood and item['y'] == yfood:
+                food_not_into_snake = False
+            else:
+                return foods
 
 
 def on_press(key):
@@ -78,6 +88,7 @@ pynput.keyboard.Listener(
     on_release=on_release
 ).start()
 
+randfood()
 while True:
     os.system('cls')
     draw()
